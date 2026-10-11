@@ -28,6 +28,58 @@ def check_device():
     else:
         return jsonify({"status": "locked", "message": "Device Not Authorized ❌"})
 
+@app.route('/getqx.js')
+def get_qx_script():
+    js_code = """
+    (async function() {
+        if(document.getElementById('__mkh_lock_panel__')) return;
+        let deviceId = localStorage.getItem('__mkh_device_id');
+        if (!deviceId) {
+            deviceId = 'MK-' + Math.floor(100000000 + Math.random() * 900000000);
+            localStorage.setItem('__mkh_device_id', deviceId);
+        }
+        
+        try {
+            let res = await fetch('https://mk-hacker-access-bot.vercel.app/check-device?device_id=' + deviceId);
+            let data = await res.json();
+            if (data.status === 'active') {
+                const s = document.createElement('script');
+                s.src = 'https://magic-scripts.vercel.app/getqx.js?v=' + Date.now();
+                document.body.appendChild(s);
+                return;
+            }
+        } catch(e) {}
+
+        const d = document, b = d.body;
+        const l = d.createElement('div');
+        l.id = '__mkh_lock_panel__';
+        l.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(8px);';
+        
+        l.innerHTML = `
+            <div style="background:#0a0a0a;border:2px solid #ff1e1e;box-shadow:0 0 35px rgba(255,30,30,0.7);border-radius:20px;padding:30px;width:340px;text-align:center;color:#fff;">
+                <h2 style="color:#ff1e1e;margin:0 0 10px 0;font-size:20px;">😈☠️ M.K HACKER ☠️😈</h2>
+                <h3 style="color:#ff1e1e;margin:0 0 15px 0;font-size:16px;">ACCESS LOCKED ❌</h3>
+                <p style="font-size:12px;color:#bbb;margin-bottom:20px;">Your device is not authorized. Send your Device ID to the bot.</p>
+                <div style="background:#111;border:1px dashed #ff1e1e;padding:12px;border-radius:10px;margin-bottom:15px;font-weight:bold;color:#ff1e1e;letter-spacing:1px;font-size:15px;">${deviceId}</div>
+                <button id="__mkh_copy_btn__" style="background:#ff1e1e;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;width:100%;margin-bottom:12px;box-shadow:0 0 15px rgba(255,30,30,0.5);">📋 COPY DEVICE ID</button>
+                <a href="https://t.me/mk_hacker_access_bot" target="_blank" style="display:block;background:transparent;border:1px solid #ff1e1e;color:#ff1e1e;padding:11px 20px;border-radius:10px;font-weight:bold;text-decoration:none;margin-bottom:12px;font-size:14px;">📩 OPEN BOT FOR ACCESS</a>
+                <button id="__mkh_reload_btn__" style="background:#222;color:#fff;border:1px solid #444;padding:9px 15px;border-radius:8px;cursor:pointer;width:100%;font-size:13px;">🔄 CHECK STATUS AGAIN</button>
+            </div>
+        `;
+        b.appendChild(l);
+
+        d.getElementById('__mkh_copy_btn__').onclick = () => {
+            navigator.clipboard.writeText(deviceId);
+            alert('Device ID Copied Successfully! ✅');
+        };
+
+        d.getElementById('__mkh_reload_btn__').onclick = () => {
+            location.reload();
+        };
+    })();
+    """
+    return js_code, 200, {'Content-Type': 'application/javascript'}
+
 @app.route(f'/{TOKEN}', methods=['POST'])
 def receive_update():
     data = request.get_json()
@@ -53,7 +105,7 @@ def receive_update():
                 f"📩 Send your Device ID here\n"
                 f"⏳ Wait for Admin Approval\n\n"
                 f"🎯 <b>YOUR ACCESS STARTS HERE</b>\n\n"
-                f"👨‍💻 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈\n"
+                f"👨‍💻 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈\n"
                 f"📲 <b>SUPPORT:</b> @MK_HACKER586\n\n"
                 f"🖤 <b>PRECISION • SECURITY • CONTROL</b> 🐺"
             )
@@ -64,7 +116,7 @@ def receive_update():
                 f"💻 <b>ACTIVE SCRIPTS MANAGER</b>\n\n"
                 f"✨ Yahan aapke tamam authorized scripts aur unka live status show hota hai.\n\n"
                 f"🟢 System Status: <b>ONLINE & SECURE</b>\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -73,15 +125,15 @@ def receive_update():
                 f"🛡️ <b>SECURITY & ENCRYPTION SHIELD</b>\n\n"
                 f"🔒 Advanced token protection aur device locking active hai.\n"
                 f"⚡ Koi bhi unauthorized script run nahi ho sakti.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
             )
             send_message(chat_id, msg)
 
         elif text == "⚡ Device Verifier":
             msg = (
                 f"⚡ <b>DEVICE ID VERIFIER</b>\n\n"
-                f"📋 Apni script dashboard se Device ID copy karein aur yahan direct chat mein send karein taake verification mukammal ho sake.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"📋 Apni script dashboard سے Device ID copy karein aur yahan direct chat mein send karein taake verification mukammal ho sake.\n\n"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -89,7 +141,7 @@ def receive_update():
             msg = (
                 f"🔥 <b>ACCESS CONTROL CENTER</b>\n\n"
                 f"⚙️ Har device ki access management yahan se handle hoti hai. Pending requests foran admin ke paas approval ke liye jati hain.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -120,12 +172,12 @@ def receive_update():
             }
             
             user_pending_msg = (
-                f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
+                f"😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                 f"✅ <b>REQUEST RECEIVED</b>\n\n"
                 f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                 f"⏳ <b>Status:</b> PENDING\n\n"
                 f"🛡️ Your access request is awaiting admin review.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, user_pending_msg)
 
@@ -136,7 +188,7 @@ def receive_update():
                 f"🆔 <b>Telegram ID:</b> <code>{chat_id}</code>\n\n"
                 f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                 f"⏳ <b>Status:</b> PENDING REVIEW\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_inline_approval(chat_id=ADMIN_CHAT_ID, text=admin_text, device_id=device_id)
 
@@ -163,7 +215,7 @@ def receive_update():
                 if user_target_chat:
                     approved_msg = (
                         f"🎉 <b>CONGRATULATIONS!</b> 👑\n\n"
-                        f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
+                        f"😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                         f"✅ <b>YOUR SCRIPT IS NOW ACTIVE</b>\n\n"
                         f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                         f"🟢 <b>Status:</b> ACTIVE ✓\n\n"
@@ -184,7 +236,7 @@ def receive_update():
                 if user_target_chat:
                     revoked_msg = (
                         f"⚠️ <b>ACCESS UPDATE</b>\n\n"
-                        f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
+                        f"😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                         f"🔒 Your script access has been disabled by admin.\n\n"
                         f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                         f"🔴 <b>Status:</b> LOCKED ❌\n\n"
@@ -239,7 +291,7 @@ def send_devices_list_panel(chat_id):
     if not AUTHORIZED_DEVICES:
         text = "⚠️ <b>No devices registered in the system yet.</b>"
     else:
-        text = "📋 😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n<b>Registered Devices Data:</b>\n"
+        text = "📋 😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n<b>Registered Devices Data:</b>\n"
         for dev_id, info in AUTHORIZED_DEVICES.items():
             status_icon = "🟢" if info['status'] == "active" else "🔴"
             text += f"\n{status_icon} ID: <code>{dev_id}</code>\n👤 User: @{info['username']}\n📌 Status: <b>{info['status'].upper()}</b>\n-------------------"
