@@ -12,7 +12,7 @@ AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - ONLINE & ACTIVE 🚀"
+    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
 
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
@@ -44,7 +44,7 @@ def receive_update():
 
         if text == "/start":
             welcome_msg = (
-                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\n"
                 f"✨ WELCOME, {first_name} 🖤\n\n"
                 f"👑 Welcome to the Official Access & Control System\n\n"
                 f"🔐 DEVICE VERIFICATION\n\n"
@@ -57,7 +57,7 @@ def receive_update():
                 f"📲 SUPPORT: @MK_HACKER586\n\n"
                 f"🖤 PRECISION • SECURITY • CONTROL 🐺"
             )
-            send_main_menu(chat_id, welcome_msg)
+            send_grid_menu(chat_id, welcome_msg)
 
         elif text == "/list" and str(chat_id) == str(ADMIN_CHAT_ID):
             send_devices_list_panel(chat_id)
@@ -72,7 +72,7 @@ def receive_update():
             }
             
             user_pending_msg = (
-                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\n"
                 f"✅ REQUEST RECEIVED\n\n"
                 f"💻 Device ID: {device_id}\n\n"
                 f"⏳ Status: PENDING\n\n"
@@ -99,11 +99,11 @@ def receive_update():
         data_val = callback["data"]
         
         if data_val == "show_list":
-            answer_callback(callback_id, "Loading Active Devices List...")
+            answer_callback(callback_id, "Loading Device List...")
             send_devices_list_panel(chat_id, callback["message"]["message_id"])
             return "OK", 200
-        elif data_val == "main_menu":
-            answer_callback(callback_id, "Main Menu")
+        elif data_val == "menu_click":
+            answer_callback(callback_id, "Select your option below")
             return "OK", 200
 
         parts = data_val.split("_", 1)
@@ -123,11 +123,11 @@ def receive_update():
                 if user_target_chat:
                     approved_msg = (
                         f"🎉 CONGRATULATIONS! 👑\n\n"
-                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\n"
                         f"✅ YOUR SCRIPT IS NOW ACTIVE\n\n"
                         f"💻 Device ID: {device_id}\n\n"
                         f"🟢 Status: ACTIVE ✓\n\n"
-                        f"🚀 You can now access and run all features seamlessly.\n\n"
+                        f"🚀 Your script is fully authorized and working.\n\n"
                         f"📩 SUPPORT: @MK_HACKER586\n\n"
                         f"🖤 PRECISION • SECURITY • CONTROL"
                     )
@@ -138,13 +138,13 @@ def receive_update():
                     AUTHORIZED_DEVICES[device_id]["status"] = "banned"
                 
                 answer_callback(callback_id, "Script Access Revoked! ❌")
-                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ SCRIPT ACCESS REMOVED\n\n💻 Device ID: {device_id}\nStatus: LOCKED ❌\n👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝐂𝗞𝗘𝗥 ☠️😈")
+                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ SCRIPT ACCESS REMOVED\n\n💻 Device ID: {device_id}\nStatus: LOCKED ❌\n👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
 
                 user_target_chat = AUTHORIZED_DEVICES[device_id].get("chat_id")
                 if user_target_chat:
                     revoked_msg = (
                         f"⚠️ ACCESS UPDATE\n\n"
-                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\n"
                         f"🔒 Your script access has been disabled by admin.\n\n"
                         f"💻 Device ID: {device_id}\n\n"
                         f"🔴 Status: LOCKED ❌\n\n"
@@ -159,7 +159,7 @@ def send_message(chat_id, text):
     payload = {"chat_id": chat_id, "text": text}
     requests.post(url, json=payload)
 
-def send_main_menu(chat_id, text):
+def send_grid_menu(chat_id, text):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
@@ -167,19 +167,19 @@ def send_main_menu(chat_id, text):
         "reply_markup": {
             "inline_keyboard": [
                 [
-                    {"text": "📊 Future Signals", "callback_data": "main_menu"},
-                    {"text": "🚀 Live Signals", "callback_data": "main_menu"}
+                    {"text": "📊 Future Scripts", "callback_data": "menu_click"},
+                    {"text": "🚀 Live Status", "callback_data": "menu_click"}
                 ],
                 [
-                    {"text": "⚡ Signal Verifiers", "callback_data": "main_menu"},
-                    {"text": "🔥 BUG Signals", "callback_data": "main_menu"}
+                    {"text": "⚡ Script Verifiers", "callback_data": "menu_click"},
+                    {"text": "🔥 BUG Control", "callback_data": "menu_click"}
                 ],
                 [
-                    {"text": "📈 AI Volatility Test", "callback_data": "main_menu"},
-                    {"text": "📊 Chart Analyzer", "callback_data": "main_menu"}
+                    {"text": "📈 Volatility Test", "callback_data": "menu_click"},
+                    {"text": "📊 Device Analyzer", "callback_data": "menu_click"}
                 ],
                 [
-                    {"text": "💡 AI Helper", "callback_data": "main_menu"},
+                    {"text": "💡 AI Helper", "callback_data": "menu_click"},
                     {"text": "👑 Admin List Panel", "callback_data": "show_list"}
                 ]
             ]
@@ -209,23 +209,16 @@ def send_inline_keyboard(chat_id, text, device_id):
 def send_devices_list_panel(chat_id, message_id=None):
     if not AUTHORIZED_DEVICES:
         text = "⚠️ No devices registered in system yet."
-        keyboard = []
+        keyboard = [[{"text": "🔄 REFRESH LIST", "callback_data": "show_list"}]]
     else:
-        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 LIST\n\nSelect a device to remove or manage:"
+        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\nSelect any device below to manage or remove access:"
         keyboard = []
         for dev_id, info in AUTHORIZED_DEVICES.items():
             status_icon = "🟢" if info['status'] == "active" else "🔴"
             button_text = f"{status_icon} {dev_id} (@{info['username']})"
             keyboard.append([{"text": button_text, "callback_data": f"remove_{dev_id}"}])
+        keyboard.append([{"text": "🔄 REFRESH LIST", "callback_data": "show_list"}])
     
-    keyboard.append([{"text": "🔄 REFRESH LIST", "callback_data": "show_list"}])
-    
-    payload = {
-        "chat_id": chat_id,
-        text: text,
-        "reply_markup": {"inline_keyboard": keyboard}
-    }
-    # Fixing payload key for text
     payload = {
         "chat_id": chat_id,
         "text": text,
