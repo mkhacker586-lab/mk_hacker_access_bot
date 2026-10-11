@@ -100,7 +100,7 @@ def receive_update():
         data_val = callback["data"]
         
         if data_val == "menu_main":
-            answer_callback(callback_id, "Main Control Menu")
+            answer_callback(callback_id, "Main Control Menu Loaded ⚡")
             text = (
                 f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                 f"👑 Official Script Access & Control Panel\n\n"
@@ -110,49 +110,49 @@ def receive_update():
             return "OK", 200
 
         elif data_val == "menu_scripts":
-            answer_callback(callback_id, "Active Scripts Panel")
+            answer_callback(callback_id, "Active Scripts Panel 💻")
             text = (
                 f"💻 <b>ACTIVE SCRIPTS MANAGER</b>\n\n"
-                f"🟢 System Status: <b>ONLINE & SECURE</b>\n"
-                f"⚡ All deployed scripts are running smoothly under high encryption.\n\n"
+                f"🟢 System Status: <b>ONLINE & FULLY SECURE</b>\n"
+                f"⚡ All deployed scripts are running smoothly under high-grade military encryption.\n\n"
                 f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             edit_message_with_menu(chat_id, message_id, text, menu_type="back")
             return "OK", 200
 
         elif data_val == "menu_security":
-            answer_callback(callback_id, "Security Shield Panel")
+            answer_callback(callback_id, "Security Shield Panel 🛡️")
             text = (
                 f"🛡️ <b>SECURITY & ENCRYPTION SHIELD</b>\n\n"
-                f"🔒 Advanced token protection and device locking are fully active.\n"
-                f"⚡ Unauthorized script execution is strictly blocked.\n\n"
+                f"🔒 Advanced token protection and device locking mechanisms are fully active.\n"
+                f"⚡ Any unauthorized execution attempt is instantly blocked.\n\n"
                 f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             edit_message_with_menu(chat_id, message_id, text, menu_type="back")
             return "OK", 200
 
         elif data_val == "menu_verifier":
-            answer_callback(callback_id, "Device Verifier Panel")
+            answer_callback(callback_id, "Device Verifier Panel ⚡")
             text = (
                 f"⚡ <b>DEVICE ID VERIFIER</b>\n\n"
-                f"📋 Copy your Device ID from your dashboard and send it directly in this chat to verify your access status instantly.\n\n"
+                f"📋 Copy your unique Device ID from your dashboard and send it directly in this chat to verify your authorization status instantly.\n\n"
                 f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             edit_message_with_menu(chat_id, message_id, text, menu_type="back")
             return "OK", 200
 
         elif data_val == "menu_control":
-            answer_callback(callback_id, "Access Control Panel")
+            answer_callback(callback_id, "Access Control Panel 🔥")
             text = (
                 f"🔥 <b>ACCESS CONTROL CENTER</b>\n\n"
-                f"⚙️ Manage authorization requests and device statuses securely in real-time.\n\n"
+                f"⚙️ Manage authorization requests and hardware device statuses securely in real-time.\n\n"
                 f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             edit_message_with_menu(chat_id, message_id, text, menu_type="back")
             return "OK", 200
 
         elif data_val == "menu_list":
-            answer_callback(callback_id, "Loading Devices List...")
+            answer_callback(callback_id, "Loading Devices Database...")
             if str(chat_id) == str(ADMIN_CHAT_ID):
                 if not AUTHORIZED_DEVICES:
                     text = "⚠️ <b>No devices registered in the system yet.</b>"
@@ -167,13 +167,13 @@ def receive_update():
             return "OK", 200
 
         elif data_val == "menu_hide":
-            answer_callback(callback_id, "Menu Minimized 🔽")
-            text = "📂 <b>Menu minimized. Click below to expand again.</b>"
+            answer_callback(callback_id, "Menu Minimized Successfully 🔽")
+            text = "📂 <b>Menu minimized. Click below to expand panel again.</b>"
             edit_message_with_menu(chat_id, message_id, text, menu_type="minimized")
             return "OK", 200
 
         elif data_val == "menu_expand":
-            answer_callback(callback_id, "Menu Expanded 🔼")
+            answer_callback(callback_id, "Menu Expanded Successfully 🔼")
             text = (
                 f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                 f"👑 Official Script Access & Control Panel\n\n"
@@ -203,7 +203,7 @@ def receive_update():
                         f"✅ <b>YOUR SCRIPT IS NOW ACTIVE</b>\n\n"
                         f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                         f"🟢 <b>Status:</b> ACTIVE ✓\n\n"
-                        f"🚀 Your device is fully authorized and working.\n\n"
+                        f"🚀 Your device is fully authorized and running seamlessly.\n\n"
                         f"📩 <b>SUPPORT:</b> @MK_HACKER586\n\n"
                         f"🖤 <b>PRECISION • SECURITY • CONTROL</b>"
                     )
