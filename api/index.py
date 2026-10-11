@@ -8,14 +8,12 @@ TOKEN = "8952622770:AAEtPR3iUsVpQ9Wi3i6kgcsDn64EOIJQ3zU"
 ADMIN_CHAT_ID = "8791893329"
 TELEGRAM_INIT_URL = f"https://api.telegram.org/bot{TOKEN}"
 
-# Database storage for devices
 AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒 ☠️😈 - ONLINE & ACTIVE 🚀"
+    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - ONLINE & ACTIVE 🚀"
 
-# Script dashboard ke liye verification endpoint
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
     device_id = request.args.get('device_id') or request.json.get('device_id') if request.is_json else None
@@ -46,20 +44,20 @@ def receive_update():
 
         if text == "/start":
             welcome_msg = (
-                f"😈☠️ <b>𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒</b> ☠️😈\n\n"
-                f"✨ <b>𝐖𝐄𝐋𝐂𝐎𝐌𝐄, {first_name}</b> 🖤\n\n"
+                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                f"✨ WELCOME, {first_name} 🖤\n\n"
                 f"👑 Welcome to the Official Access & Control System\n\n"
-                f"🔐 <b>𝐃𝐄𝐕𝐈𝐂𝐄 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐓𝐈𝐎𝐍</b>\n\n"
+                f"🔐 DEVICE VERIFICATION\n\n"
                 f"💻 Open your script dashboard\n"
                 f"📋 Copy your Device ID\n"
                 f"📩 Send your Device ID here\n"
                 f"⏳ Wait for Admin Approval\n\n"
-                f"🎯 <b>𝐘𝐎𝐔𝐑 𝐀𝐂𝐂𝐄𝐒𝐒 𝐒𝐓𝐀𝐑𝐓𝐒 𝐇𝐄𝐑𝐄</b>\n\n"
-                f"👨‍💻 <b>𝐁𝐑𝐀𝐍𝐃:</b> 😈☠️ 𝐌.𝗞 𝐇𝐀𝐂𝐊𝐄𝐑 ☠️😈\n"
-                f"📲 <b>𝐒𝐔𝐏𝐏𝐎𝐑𝐓:</b> @MK_HACKER586\n\n"
-                f"🖤 <b>𝐏𝐑𝐄𝐂𝐈𝐒𝐈𝐎𝐍 • 𝐒𝐄𝐂𝐔𝐑𝐈𝐓𝐘 • 𝐂𝐎𝐍𝐓𝐑𝐎𝐋</b> 🐺"
+                f"🎯 YOUR ACCESS STARTS HERE\n\n"
+                f"👨‍💻 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈\n"
+                f"📲 SUPPORT: @MK_HACKER586\n\n"
+                f"🖤 PRECISION • SECURITY • CONTROL 🐺"
             )
-            send_message(chat_id, welcome_msg)
+            send_main_menu(chat_id, welcome_msg)
 
         elif text == "/list" and str(chat_id) == str(ADMIN_CHAT_ID):
             send_devices_list_panel(chat_id)
@@ -74,23 +72,23 @@ def receive_update():
             }
             
             user_pending_msg = (
-                f"😈☠️ <b>𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒</b> ☠️😈\n\n"
-                f"✅ <b>𝐑𝐄𝐐𝐔𝐄𝐒𝐓 𝐑𝐄𝐂𝐄𝐈𝐕𝐄𝐃</b>\n\n"
-                f"💻 <b>𝐃𝐞𝐯𝐢𝐜𝐞 𝐈𝐃:</b> <code>{device_id}</code>\n\n"
-                f"⏳ <b>𝐒𝐭𝐚𝐭𝐮𝐬:</b> 𝐏𝐄𝐍𝐃𝐈𝐍𝐆\n\n"
+                f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                f"✅ REQUEST RECEIVED\n\n"
+                f"💻 Device ID: {device_id}\n\n"
+                f"⏳ Status: PENDING\n\n"
                 f"🛡️ Your access request is awaiting admin review.\n\n"
-                f"👑 <b>𝐁𝐑𝐀𝐍𝐃:</b> 😈☠️ 𝐌.𝗞 𝐇𝐀𝐂𝐊𝐄𝐑 ☠️😈"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, user_pending_msg)
 
             admin_text = (
-                f"🚨 <b>𝐍𝐄𝐖 𝐒𝐂𝐑𝐈𝐏𝐓 𝐀𝐂𝐂𝐄𝐒𝐒 𝐑𝐄𝐐𝐔𝐄𝐒𝐓</b>\n\n"
-                f"👤 <b>𝐍𝐚𝐦𝐞:</b> {first_name}\n"
-                f"📱 <b>𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞:</b> @{username}\n"
-                f"🆔 <b>𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 𝐈𝐃:</b> <code>{chat_id}</code>\n\n"
-                f"💻 <b>𝐃𝐞𝐯𝐢𝐜𝐞 𝐈𝐃:</b> <code>{device_id}</code>\n\n"
-                f"⏳ <b>𝐒𝐭𝐚𝐭𝐮𝐬:</b> 𝐏𝐄𝐍𝐃𝐈𝐍𝐆 𝐑𝐄𝐕𝐈𝐄𝐖\n\n"
-                f"👑 <b>𝐁𝐑𝐀𝐍𝐃:</b> 😈☠️ 𝐌.𝗞 𝐇𝐀𝐂𝐊𝐄𝐑 ☠️😈"
+                f"🚨 NEW SCRIPT ACCESS REQUEST\n\n"
+                f"👤 Name: {first_name}\n"
+                f"📱 Username: @{username}\n"
+                f"🆔 Telegram ID: {chat_id}\n\n"
+                f"💻 Device ID: {device_id}\n\n"
+                f"⏳ Status: PENDING REVIEW\n\n"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_inline_keyboard(chat_id=ADMIN_CHAT_ID, text=admin_text, device_id=device_id)
 
@@ -104,6 +102,9 @@ def receive_update():
             answer_callback(callback_id, "Loading Active Devices List...")
             send_devices_list_panel(chat_id, callback["message"]["message_id"])
             return "OK", 200
+        elif data_val == "main_menu":
+            answer_callback(callback_id, "Main Menu")
+            return "OK", 200
 
         parts = data_val.split("_", 1)
         if len(parts) == 2:
@@ -116,19 +117,19 @@ def receive_update():
                     AUTHORIZED_DEVICES[device_id] = {"status": "active", "username": "Unknown", "chat_id": chat_id}
                 
                 answer_callback(callback_id, "Script Access Granted Successfully! ✅")
-                edit_message_text(chat_id, callback["message"]["message_id"], f"✅ <b>SCRIPT ACCESS APPROVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>ACTIVE ✓</b>\n👑 <b>BRAND:</b> 😈☠️ 𝐌.𝗞 𝐇𝗔𝐂𝐊𝐄𝐑 ☠️😈")
+                edit_message_text(chat_id, callback["message"]["message_id"], f"✅ SCRIPT ACCESS APPROVED\n\n💻 Device ID: {device_id}\nStatus: ACTIVE ✓\n👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
                 
                 user_target_chat = AUTHORIZED_DEVICES[device_id].get("chat_id")
                 if user_target_chat:
                     approved_msg = (
-                        f"🎉 <b>𝐂𝐎𝐍𝐆𝐑𝐀𝐓𝐔𝐋𝐀𝐓𝐈𝐎𝐍𝐒!</b> 👑\n\n"
-                        f"😈☠️ <b>𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒</b> ☠️😈\n\n"
-                        f"✅ <b>𝐘𝐎𝐔𝐑 𝐒𝐂𝐑𝐈𝐏𝐓 𝐈𝐒 𝐍𝐎𝐖 𝐀𝐂𝐓𝐈𝐕𝐄</b>\n\n"
-                        f"💻 <b>𝐃𝐞𝐯𝐢𝐜𝐞 𝐈𝐃:</b> <code>{device_id}</code>\n\n"
-                        f"🟢 <b>𝐒𝐭𝐚𝐭𝐮𝐬:</b> 𝐀𝐂𝐓𝐈𝐕𝐄 ✓\n\n"
+                        f"🎉 CONGRATULATIONS! 👑\n\n"
+                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
+                        f"✅ YOUR SCRIPT IS NOW ACTIVE\n\n"
+                        f"💻 Device ID: {device_id}\n\n"
+                        f"🟢 Status: ACTIVE ✓\n\n"
                         f"🚀 You can now access and run all features seamlessly.\n\n"
-                        f"📩 <b>𝐒𝐔𝐏𝐏𝐎𝐑𝐓:</b> @MK_HACKER586\n\n"
-                        f"🖤 <b>𝐏𝐑𝐄𝐂𝐈𝐒𝐈𝐎𝐍 • 𝐒𝐄𝐂𝐔𝐑𝐈𝐓𝐘 • 𝐂𝐎𝐍𝐓𝐑𝐎𝐋</b>"
+                        f"📩 SUPPORT: @MK_HACKER586\n\n"
+                        f"🖤 PRECISION • SECURITY • CONTROL"
                     )
                     send_message(user_target_chat, approved_msg)
 
@@ -137,17 +138,17 @@ def receive_update():
                     AUTHORIZED_DEVICES[device_id]["status"] = "banned"
                 
                 answer_callback(callback_id, "Script Access Revoked! ❌")
-                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ <b>SCRIPT ACCESS REMOVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>LOCKED ❌</b>\n👑 <b>BRAND:</b> 😈☠️ 𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 ☠️😈")
+                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ SCRIPT ACCESS REMOVED\n\n💻 Device ID: {device_id}\nStatus: LOCKED ❌\n👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝐂𝗞𝗘𝗥 ☠️😈")
 
                 user_target_chat = AUTHORIZED_DEVICES[device_id].get("chat_id")
                 if user_target_chat:
                     revoked_msg = (
-                        f"⚠️ <b>𝐀𝐂𝐂𝐄𝐒𝐒 𝐔𝐏𝐃𝐀𝐓𝐄</b>\n\n"
-                        f"😈☠️ <b>𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒</b> ☠️😈\n\n"
+                        f"⚠️ ACCESS UPDATE\n\n"
+                        f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝐓𝗦 ☠️😈\n\n"
                         f"🔒 Your script access has been disabled by admin.\n\n"
-                        f"💻 <b>𝐃𝐞𝐯𝐢𝐜𝐞 𝐈𝐃:</b> <code>{device_id}</code>\n\n"
-                        f"🔴 <b>𝐒𝐭𝐚𝐭𝐮𝐬:</b> 𝐋𝐎𝐂𝐊𝐄𝐃 ❌\n\n"
-                        f"👨‍💻 <b>𝐒𝐔𝐏𝐏𝐎𝐑𝐓:</b> @MK_HACKER586"
+                        f"💻 Device ID: {device_id}\n\n"
+                        f"🔴 Status: LOCKED ❌\n\n"
+                        f"👨‍💻 SUPPORT: @MK_HACKER586"
                     )
                     send_message(user_target_chat, revoked_msg)
 
@@ -155,7 +156,35 @@ def receive_update():
 
 def send_message(chat_id, text):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
+    payload = {"chat_id": chat_id, "text": text}
+    requests.post(url, json=payload)
+
+def send_main_menu(chat_id, text):
+    url = f"{TELEGRAM_INIT_URL}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "reply_markup": {
+            "inline_keyboard": [
+                [
+                    {"text": "📊 Future Signals", "callback_data": "main_menu"},
+                    {"text": "🚀 Live Signals", "callback_data": "main_menu"}
+                ],
+                [
+                    {"text": "⚡ Signal Verifiers", "callback_data": "main_menu"},
+                    {"text": "🔥 BUG Signals", "callback_data": "main_menu"}
+                ],
+                [
+                    {"text": "📈 AI Volatility Test", "callback_data": "main_menu"},
+                    {"text": "📊 Chart Analyzer", "callback_data": "main_menu"}
+                ],
+                [
+                    {"text": "💡 AI Helper", "callback_data": "main_menu"},
+                    {"text": "👑 Admin List Panel", "callback_data": "show_list"}
+                ]
+            ]
+        }
+    }
     requests.post(url, json=payload)
 
 def send_inline_keyboard(chat_id, text, device_id):
@@ -163,7 +192,6 @@ def send_inline_keyboard(chat_id, text, device_id):
     payload = {
         "chat_id": chat_id,
         "text": text,
-        "parse_mode": "HTML",
         "reply_markup": {
             "inline_keyboard": [
                 [
@@ -180,10 +208,10 @@ def send_inline_keyboard(chat_id, text, device_id):
 
 def send_devices_list_panel(chat_id, message_id=None):
     if not AUTHORIZED_DEVICES:
-        text = "⚠️ <b>No devices registered in system yet.</b>"
+        text = "⚠️ No devices registered in system yet."
         keyboard = []
     else:
-        text = "📋 <b>😈☠️ 𝐌.𝐊 𝐇𝐀𝐂𝐊𝐄𝐑 𝐏𝐑𝐎 𝐒𝐂𝐑𝐈𝐏𝐓𝐒 𝐋𝐈𝐒𝐓 ☠️😈</b>\n\nSelect a device to remove or manage:"
+        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 LIST\n\nSelect a device to remove or manage:"
         keyboard = []
         for dev_id, info in AUTHORIZED_DEVICES.items():
             status_icon = "🟢" if info['status'] == "active" else "🔴"
@@ -194,8 +222,13 @@ def send_devices_list_panel(chat_id, message_id=None):
     
     payload = {
         "chat_id": chat_id,
+        text: text,
+        "reply_markup": {"inline_keyboard": keyboard}
+    }
+    # Fixing payload key for text
+    payload = {
+        "chat_id": chat_id,
         "text": text,
-        "parse_mode": "HTML",
         "reply_markup": {"inline_keyboard": keyboard}
     }
     
@@ -212,8 +245,7 @@ def edit_message_text(chat_id, message_id, text):
     payload = {
         "chat_id": chat_id,
         "message_id": message_id,
-        "text": text,
-        "parse_mode": "HTML"
+        "text": text
     }
     requests.post(url, json=payload)
 
