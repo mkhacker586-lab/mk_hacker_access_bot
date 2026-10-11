@@ -12,7 +12,7 @@ AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
+    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - ACCESS SYSTEM ONLINE 🚀"
 
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
@@ -57,7 +57,7 @@ def receive_update():
                 f"📲 SUPPORT: @MK_HACKER586\n\n"
                 f"🖤 PRECISION • SECURITY • CONTROL 🐺"
             )
-            send_grid_menu(chat_id, welcome_msg)
+            send_access_menu(chat_id, welcome_msg)
 
         elif text == "/list" and str(chat_id) == str(ADMIN_CHAT_ID):
             send_devices_list_panel(chat_id)
@@ -99,11 +99,11 @@ def receive_update():
         data_val = callback["data"]
         
         if data_val == "show_list":
-            answer_callback(callback_id, "Loading Device List...")
+            answer_callback(callback_id, "Loading Active Devices List...")
             send_devices_list_panel(chat_id, callback["message"]["message_id"])
             return "OK", 200
-        elif data_val == "menu_click":
-            answer_callback(callback_id, "Select your option below")
+        elif data_val == "access_info":
+            answer_callback(callback_id, "Send your Device ID to get access")
             return "OK", 200
 
         parts = data_val.split("_", 1)
@@ -127,7 +127,7 @@ def receive_update():
                         f"✅ YOUR SCRIPT IS NOW ACTIVE\n\n"
                         f"💻 Device ID: {device_id}\n\n"
                         f"🟢 Status: ACTIVE ✓\n\n"
-                        f"🚀 Your script is fully authorized and working.\n\n"
+                        f"🚀 Your device is fully authorized and working.\n\n"
                         f"📩 SUPPORT: @MK_HACKER586\n\n"
                         f"🖤 PRECISION • SECURITY • CONTROL"
                     )
@@ -159,7 +159,7 @@ def send_message(chat_id, text):
     payload = {"chat_id": chat_id, "text": text}
     requests.post(url, json=payload)
 
-def send_grid_menu(chat_id, text):
+def send_access_menu(chat_id, text):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
@@ -167,20 +167,20 @@ def send_grid_menu(chat_id, text):
         "reply_markup": {
             "inline_keyboard": [
                 [
-                    {"text": "📊 Future Scripts", "callback_data": "menu_click"},
-                    {"text": "🚀 Live Status", "callback_data": "menu_click"}
+                    {"text": "💻 Active Scripts", "callback_data": "access_info"},
+                    {"text": "🛡️ Security Status", "callback_data": "access_info"}
                 ],
                 [
-                    {"text": "⚡ Script Verifiers", "callback_data": "menu_click"},
-                    {"text": "🔥 BUG Control", "callback_data": "menu_click"}
+                    {"text": "⚡ Device Verifier", "callback_data": "access_info"},
+                    {"text": "🔥 Access Control", "callback_data": "access_info"}
                 ],
                 [
-                    {"text": "📈 Volatility Test", "callback_data": "menu_click"},
-                    {"text": "📊 Device Analyzer", "callback_data": "menu_click"}
+                    {"text": "📊 Script Analytics", "callback_data": "access_info"},
+                    {"text": "📋 All Devices List", "callback_data": "show_list"}
                 ],
                 [
-                    {"text": "💡 AI Helper", "callback_data": "menu_click"},
-                    {"text": "👑 Admin List Panel", "callback_data": "show_list"}
+                    {"text": "💡 Support Helper", "callback_data": "access_info"},
+                    {"text": "👑 Admin Control Panel", "callback_data": "show_list"}
                 ]
             ]
         }
