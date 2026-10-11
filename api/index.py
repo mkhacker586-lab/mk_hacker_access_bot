@@ -12,7 +12,7 @@ AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - CONTROL SYSTEM ONLINE 🚀"
+    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
 
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
@@ -42,7 +42,7 @@ def receive_update():
         username = user.get("username", "Unknown")
         first_name = user.get("first_name", "User")
 
-        if text == "/start":
+        if text == "/start" or text == "🔄 Refresh Panel":
             welcome_msg = (
                 f"😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\n"
                 f"✨ WELCOME, {first_name} 🖤\n\n"
@@ -57,10 +57,16 @@ def receive_update():
                 f"📲 SUPPORT: @MK_HACKER586\n\n"
                 f"🖤 PRECISION • SECURITY • CONTROL 🐺"
             )
-            send_main_control_menu(chat_id, welcome_msg)
+            send_reply_keyboard_menu(chat_id, welcome_msg)
 
-        elif text == "/list" and str(chat_id) == str(ADMIN_CHAT_ID):
-            send_devices_list_panel(chat_id)
+        elif text == "📋 All Devices List" or text == "👑 Admin Control Panel" or text == "/list":
+            if str(chat_id) == str(ADMIN_CHAT_ID):
+                send_devices_list_panel(chat_id)
+            else:
+                send_message(chat_id, "⚠️ Yeh command sirf admin ke liye hai.")
+
+        elif text == "💻 Active Scripts" or text == "🛡️ Security Status" or text == "⚡ Device Verifier" or text == "🔥 Access Control":
+            send_message(chat_id, f"ℹ️ Aapka system active hai. Apni Device ID bhejiye taake access verify ho sake.\n\nBRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
 
         elif text.startswith("MK-") or len(text) > 5:
             device_id = text
@@ -90,7 +96,7 @@ def receive_update():
                 f"⏳ Status: PENDING REVIEW\n\n"
                 f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
-            send_admin_approval_keyboard(chat_id=ADMIN_CHAT_ID, text=admin_text, device_id=device_id)
+            send_inline_approval(chat_id=ADMIN_CHAT_ID, text=admin_text, device_id=device_id)
 
     elif "callback_query" in data:
         callback = data["callback_query"]
@@ -98,14 +104,6 @@ def receive_update():
         chat_id = callback["message"]["chat"]["id"]
         data_val = callback["data"]
         
-        if data_val == "show_list":
-            answer_callback(callback_id, "Loading All Registered Devices...")
-            send_devices_list_panel(chat_id, callback["message"]["message_id"])
-            return "OK", 200
-        elif data_val == "menu_info":
-            answer_callback(callback_id, "Send your Device ID in chat to request access.")
-            return "OK", 200
-
         parts = data_val.split("_", 1)
         if len(parts) == 2:
             action, device_id = parts
@@ -127,7 +125,7 @@ def receive_update():
                         f"✅ YOUR SCRIPT IS NOW ACTIVE\n\n"
                         f"💻 Device ID: {device_id}\n\n"
                         f"🟢 Status: ACTIVE ✓\n\n"
-                        f"🚀 Your device is fully authorized and running.\n\n"
+                        f"🚀 Your device is fully authorized and working.\n\n"
                         f"📩 SUPPORT: @MK_HACKER586\n\n"
                         f"🖤 PRECISION • SECURITY • CONTROL"
                     )
@@ -159,31 +157,25 @@ def send_message(chat_id, text):
     payload = {"chat_id": chat_id, "text": text}
     requests.post(url, json=payload)
 
-def send_main_control_menu(chat_id, text):
+def send_reply_keyboard_menu(chat_id, text):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
         "text": text,
         "reply_markup": {
-            "inline_keyboard": [
-                [
-                    {"text": "💻 Script Access Status", "callback_data": "menu_info"},
-                    {"text": "🛡️ Security Shield", "callback_data": "menu_info"}
-                ],
-                [
-                    {"text": "⚡ Device ID Verifier", "callback_data": "menu_info"},
-                    {"text": "🔥 Access Manager", "callback_data": "menu_info"}
-                ],
-                [
-                    {"text": "📋 All Devices List", "callback_data": "show_list"},
-                    {"text": "👑 Admin Control Panel", "callback_data": "show_list"}
-                ]
-            ]
+            "keyboard": [
+                [{"text": "💻 Active Scripts"}, {"text": "🛡️ Security Status"}],
+                [{"text": "⚡ Device Verifier"}, {"text": "🔥 Access Control"}],
+                [{"text": "📋 All Devices List"}, {"text": "👑 Admin Control Panel"}],
+                [{"text": "🔄 Refresh Panel"}]
+            ],
+            "resize_keyboard": True,
+            "is_persistent": True
         }
     }
     requests.post(url, json=payload)
 
-def send_admin_approval_keyboard(chat_id, text, device_id):
+def send_inline_approval(chat_id, text, device_id):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
@@ -193,41 +185,28 @@ def send_admin_approval_keyboard(chat_id, text, device_id):
                 [
                     {"text": "✅ APPROVE SCRIPT", "callback_data": f"approve_{device_id}"},
                     {"text": "❌ REMOVE SCRIPT", "callback_data": f"remove_{device_id}"}
-                ],
-                [
-                    {"text": "📋 VIEW ALL LIST", "callback_data": "show_list"}
                 ]
             ]
         }
     }
     requests.post(url, json=payload)
 
-def send_devices_list_panel(chat_id, message_id=None):
+def send_devices_list_panel(chat_id):
     if not AUTHORIZED_DEVICES:
         text = "⚠️ No devices registered in the system yet."
-        keyboard = [[{"text": "🔄 REFRESH LIST", "callback_data": "show_list"}]]
     else:
-        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\nSelect any device below to view details or remove access:"
-        keyboard = []
+        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\nRegistered Devices Data:\n"
         for dev_id, info in AUTHORIZED_DEVICES.items():
             status_icon = "🟢" if info['status'] == "active" else "🔴"
-            button_text = f"{status_icon} {dev_id} (@{info['username']})"
-            keyboard.append([{"text": button_text, "callback_data": f"remove_{dev_id}"}])
-        keyboard.append([{"text": "🔄 REFRESH LIST", "callback_data": "show_list"}])
+            text += f"\n{status_icon} ID: <code>{dev_id}</code>\n👤 User: @{info['username']}\n📌 Status: {info['status'].upper()}\n-------------------"
     
+    url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
         "text": text,
-        "reply_markup": {"inline_keyboard": keyboard}
+        "parse_mode": "HTML"
     }
-    
-    if message_id:
-        payload["message_id"] = message_id
-        url = f"{TELEGRAM_INIT_URL}/editMessageText"
-        requests.post(url, json=payload)
-    else:
-        url = f"{TELEGRAM_INIT_URL}/sendMessage"
-        requests.post(url, json=payload)
+    requests.post(url, json=payload)
 
 def edit_message_text(chat_id, message_id, text):
     url = f"{TELEGRAM_INIT_URL}/editMessageText"
