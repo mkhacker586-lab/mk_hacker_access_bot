@@ -12,7 +12,7 @@ AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝗠.𝗞 HACKER PRO SCRIPTS ☠️😈 - SYSTEM ONLINE 🚀"
+    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
 
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
@@ -32,59 +32,32 @@ def check_device():
 def get_qx_script():
     js_code = """
     (async function() {
-        if(document.getElementById('__mkh_loader__')) return;
-        
         let deviceId = localStorage.getItem('__mkh_device_id');
         if (!deviceId) {
             deviceId = 'MK-' + Math.floor(100000000 + Math.random() * 900000000);
             localStorage.setItem('__mkh_device_id', deviceId);
         }
-
-        const d = document, b = d.body, l = d.createElement('div');
-        l.id = '__mkh_loader__';
-        l.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(5px);';
         
-        const c = d.createElement('div');
-        c.style = 'width:65px;height:65px;border:6px solid rgba(255,30,30,0.2);border-top:6px solid #ff1e1e;border-radius:50%;animation:s .4s linear infinite';
-        
-        if (!d.getElementById('__mkh_anim_style__')) {
-            const st = d.createElement('style');
-            st.id = '__mkh_anim_style__';
-            st.textContent = '@keyframes s{to{transform:rotate(360deg)}}';
-            d.head.appendChild(st);
-        }
-
-        const t = d.createElement('div');
-        t.style = 'color:#ff1e1e;font-weight:900;margin-top:15px;font-size:14px;letter-spacing:1px;text-shadow:0 0 15px rgba(255,30,30,0.8);';
-        t.innerHTML = '😈☠️ <b>𝗠.𝗞 HACKER LOADING...</b>';
-        
-        l.appendChild(c);
-        l.appendChild(t);
-        b.appendChild(l);
-
         try {
             let res = await fetch('https://mk-hacker-access-bot.vercel.app/check-device?device_id=' + deviceId);
             let data = await res.json();
-            
             if (data.status === 'active') {
-                l.remove();
-                // Load original working script here
-                const s = d.createElement('script');
+                // Load your original real script when authorized!
+                const s = document.createElement('script');
                 s.src = 'https://mkhackerproscripts.vercel.app/getqx.js?v=' + Date.now();
-                b.appendChild(s);
+                document.body.appendChild(s);
                 return;
             }
         } catch(e) {}
 
-        l.remove();
-        
-        // Show stylish lock/device ID popup if not authorized
+        // Show lock panel if not authorized
         if(document.getElementById('__mkh_lock_panel__')) return;
-        const pl = d.createElement('div');
-        pl.id = '__mkh_lock_panel__';
-        pl.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(8px);';
+        const d = document, b = d.body;
+        const l = d.createElement('div');
+        l.id = '__mkh_lock_panel__';
+        l.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(8px);';
         
-        pl.innerHTML = `
+        l.innerHTML = `
             <div style="background:#0a0a0a;border:2px solid #ff1e1e;box-shadow:0 0 35px rgba(255,30,30,0.7);border-radius:20px;padding:30px;width:340px;text-align:center;color:#fff;">
                 <h2 style="color:#ff1e1e;margin:0 0 10px 0;font-size:20px;">😈☠️ M.K HACKER ☠️😈</h2>
                 <h3 style="color:#ff1e1e;margin:0 0 15px 0;font-size:16px;">ACCESS LOCKED ❌</h3>
@@ -95,7 +68,7 @@ def get_qx_script():
                 <button id="__mkh_reload_btn__" style="background:#222;color:#fff;border:1px solid #444;padding:9px 15px;border-radius:8px;cursor:pointer;width:100%;font-size:13px;">🔄 CHECK STATUS AGAIN</button>
             </div>
         `;
-        b.appendChild(pl);
+        b.appendChild(l);
 
         d.getElementById('__mkh_copy_btn__').onclick = () => {
             navigator.clipboard.writeText(deviceId);
