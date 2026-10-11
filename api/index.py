@@ -326,7 +326,7 @@ def send_devices_list_panel(chat_id):
             status_icon = "🟢" if info['status'] == "active" else "🔴"
             text += f"\n{status_icon} ID: <code>{dev_id}</code>\n👤 User: @{info['username']}\n📌 Status: <b>{info['status'].upper()}</b>\n-------------------"
     
-    url = f"{TeLgram_url := TELEGRAM_INIT_URL}/sendMessage"
+    url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
         "chat_id": chat_id,
         "text": text,
@@ -354,4 +354,4 @@ def answer_callback(callback_id, text, show_alert=False):
     requests.post(url, json=payload)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port5000)
+    app.run(host='0.0.0.0', port=5000)
