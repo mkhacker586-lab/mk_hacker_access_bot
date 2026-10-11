@@ -59,14 +59,56 @@ def receive_update():
             )
             send_reply_keyboard_menu(chat_id, welcome_msg)
 
-        elif text == "📋 All Devices List" or text == "👑 Admin Control Panel" or text == "/list":
+        elif text == "💻 Active Scripts":
+            msg = (
+                f"💻 <b>ACTIVE SCRIPTS MANAGER</b>\n\n"
+                f"✨ Yahan aapke tamam authorized scripts aur unka live status show hota hai.\n\n"
+                f"🟢 System Status: <b>ONLINE & SECURE</b>\n"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+            )
+            send_message(chat_id, msg)
+
+        elif text == "🛡️ Security Status":
+            msg = (
+                f"🛡️ <b>SECURITY & ENCRYPTION SHIELD</b>\n\n"
+                f"🔒 Advanced token protection aur device locking active hai.\n"
+                f"⚡ Koi bhi unauthorized script run nahi ho sakti.\n\n"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+            )
+            send_message(chat_id, msg)
+
+        elif text == "⚡ Device Verifier":
+            msg = (
+                f"⚡ <b>DEVICE ID VERIFIER</b>\n\n"
+                f"📋 Apni script dashboard se Device ID copy karein aur yahan direct chat mein send karein taake verification mukammal ho sake.\n\n"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+            )
+            send_message(chat_id, msg)
+
+        elif text == "🔥 Access Control":
+            msg = (
+                f"🔥 <b>ACCESS CONTROL CENTER</b>\n\n"
+                f"⚙️ Har device ki access management yahan se handle hoti hai. Pending requests foran admin ke paas approval ke liye jati hain.\n\n"
+                f"👑 BRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈"
+            )
+            send_message(chat_id, msg)
+
+        elif text == "📋 All Devices List" or text == "/list":
             if str(chat_id) == str(ADMIN_CHAT_ID):
                 send_devices_list_panel(chat_id)
             else:
-                send_message(chat_id, "⚠️ Yeh command sirf admin ke liye hai.")
+                send_message(chat_id, "⚠️ Yeh option sirf admin ke liye mukhtas hai.")
 
-        elif text == "💻 Active Scripts" or text == "🛡️ Security Status" or text == "⚡ Device Verifier" or text == "🔥 Access Control":
-            send_message(chat_id, f"ℹ️ Aapka system active hai. Apni Device ID bhejiye taake access verify ho sake.\n\nBRAND: 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
+        elif text == "👑 Admin Control Panel":
+            if str(chat_id) == str(ADMIN_CHAT_ID):
+                admin_panel_msg = (
+                    f"👑 <b>ADMIN CONTROL PANEL</b>\n\n"
+                    f"🛠️ Aap yahan se saari registered devices ki list dekh sakte hain aur kisi bhi waqt access revoke ya approve kar sakte hain.\n\n"
+                    f"👇 Neeche diye gaye 'All Devices List' button par click karein."
+                )
+                send_message(chat_id, admin_panel_msg)
+            else:
+                send_message(chat_id, "⚠️ Access Denied! Only Admin can access this panel.")
 
         elif text.startswith("MK-") or len(text) > 5:
             device_id = text
@@ -154,7 +196,7 @@ def receive_update():
 
 def send_message(chat_id, text):
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
+    payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
     requests.post(url, json=payload)
 
 def send_reply_keyboard_menu(chat_id, text):
@@ -193,12 +235,12 @@ def send_inline_approval(chat_id, text, device_id):
 
 def send_devices_list_panel(chat_id):
     if not AUTHORIZED_DEVICES:
-        text = "⚠️ No devices registered in the system yet."
+        text = "⚠️ <b>No devices registered in the system yet.</b>"
     else:
-        text = "📋 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈\n\nRegistered Devices Data:\n"
+        text = "📋 😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n<b>Registered Devices Data:</b>\n"
         for dev_id, info in AUTHORIZED_DEVICES.items():
             status_icon = "🟢" if info['status'] == "active" else "🔴"
-            text += f"\n{status_icon} ID: <code>{dev_id}</code>\n👤 User: @{info['username']}\n📌 Status: {info['status'].upper()}\n-------------------"
+            text += f"\n{status_icon} ID: <code>{dev_id}</code>\n👤 User: @{info['username']}\n📌 Status: <b>{info['status'].upper()}</b>\n-------------------"
     
     url = f"{TELEGRAM_INIT_URL}/sendMessage"
     payload = {
@@ -213,7 +255,8 @@ def edit_message_text(chat_id, message_id, text):
     payload = {
         "chat_id": chat_id,
         "message_id": message_id,
-        "text": text
+        "text": text,
+        "parse_mode": "HTML"
     }
     requests.post(url, json=payload)
 
