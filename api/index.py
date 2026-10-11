@@ -12,7 +12,7 @@ AUTHORIZED_DEVICES = {}
 
 @app.route('/')
 def home():
-    return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
+    return "😈☠️ 𝗠.𝗞 HACKER PRO SCRIPTS ☠️😈 - SYSTEM ONLINE 🚀"
 
 @app.route('/check-device', methods=['GET', 'POST'])
 def check_device():
@@ -32,30 +32,59 @@ def check_device():
 def get_qx_script():
     js_code = """
     (async function() {
-        if(document.getElementById('__mkh_lock_panel__')) return;
+        if(document.getElementById('__mkh_loader__')) return;
+        
         let deviceId = localStorage.getItem('__mkh_device_id');
         if (!deviceId) {
             deviceId = 'MK-' + Math.floor(100000000 + Math.random() * 900000000);
             localStorage.setItem('__mkh_device_id', deviceId);
         }
+
+        const d = document, b = d.body, l = d.createElement('div');
+        l.id = '__mkh_loader__';
+        l.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(5px);';
         
+        const c = d.createElement('div');
+        c.style = 'width:65px;height:65px;border:6px solid rgba(255,30,30,0.2);border-top:6px solid #ff1e1e;border-radius:50%;animation:s .4s linear infinite';
+        
+        if (!d.getElementById('__mkh_anim_style__')) {
+            const st = d.createElement('style');
+            st.id = '__mkh_anim_style__';
+            st.textContent = '@keyframes s{to{transform:rotate(360deg)}}';
+            d.head.appendChild(st);
+        }
+
+        const t = d.createElement('div');
+        t.style = 'color:#ff1e1e;font-weight:900;margin-top:15px;font-size:14px;letter-spacing:1px;text-shadow:0 0 15px rgba(255,30,30,0.8);';
+        t.innerHTML = '😈☠️ <b>𝗠.𝗞 HACKER LOADING...</b>';
+        
+        l.appendChild(c);
+        l.appendChild(t);
+        b.appendChild(l);
+
         try {
             let res = await fetch('https://mk-hacker-access-bot.vercel.app/check-device?device_id=' + deviceId);
             let data = await res.json();
+            
             if (data.status === 'active') {
-                const s = document.createElement('script');
-                s.src = 'https://magic-scripts.vercel.app/getqx.js?v=' + Date.now();
-                document.body.appendChild(s);
+                l.remove();
+                // Load original working script here
+                const s = d.createElement('script');
+                s.src = 'https://mkhackerproscripts.vercel.app/getqx.js?v=' + Date.now();
+                b.appendChild(s);
                 return;
             }
         } catch(e) {}
 
-        const d = document, b = d.body;
-        const l = d.createElement('div');
-        l.id = '__mkh_lock_panel__';
-        l.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(8px);';
+        l.remove();
         
-        l.innerHTML = `
+        // Show stylish lock/device ID popup if not authorized
+        if(document.getElementById('__mkh_lock_panel__')) return;
+        const pl = d.createElement('div');
+        pl.id = '__mkh_lock_panel__';
+        pl.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;backdrop-filter:blur(8px);';
+        
+        pl.innerHTML = `
             <div style="background:#0a0a0a;border:2px solid #ff1e1e;box-shadow:0 0 35px rgba(255,30,30,0.7);border-radius:20px;padding:30px;width:340px;text-align:center;color:#fff;">
                 <h2 style="color:#ff1e1e;margin:0 0 10px 0;font-size:20px;">😈☠️ M.K HACKER ☠️😈</h2>
                 <h3 style="color:#ff1e1e;margin:0 0 15px 0;font-size:16px;">ACCESS LOCKED ❌</h3>
@@ -66,7 +95,7 @@ def get_qx_script():
                 <button id="__mkh_reload_btn__" style="background:#222;color:#fff;border:1px solid #444;padding:9px 15px;border-radius:8px;cursor:pointer;width:100%;font-size:13px;">🔄 CHECK STATUS AGAIN</button>
             </div>
         `;
-        b.appendChild(l);
+        b.appendChild(pl);
 
         d.getElementById('__mkh_copy_btn__').onclick = () => {
             navigator.clipboard.writeText(deviceId);
@@ -96,7 +125,7 @@ def receive_update():
 
         if text == "/start" or text == "🔄 Refresh Panel":
             welcome_msg = (
-                f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
+                f"😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                 f"✨ <b>WELCOME, {first_name}</b> 🖤\n\n"
                 f"👑 Welcome to the Official Script Access & Control System\n\n"
                 f"🔐 <b>DEVICE VERIFICATION</b>\n\n"
@@ -105,7 +134,7 @@ def receive_update():
                 f"📩 Send your Device ID here\n"
                 f"⏳ Wait for Admin Approval\n\n"
                 f"🎯 <b>YOUR ACCESS STARTS HERE</b>\n\n"
-                f"👨‍💻 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈\n"
+                f"👨‍💻 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈\n"
                 f"📲 <b>SUPPORT:</b> @MK_HACKER586\n\n"
                 f"🖤 <b>PRECISION • SECURITY • CONTROL</b> 🐺"
             )
@@ -116,7 +145,7 @@ def receive_update():
                 f"💻 <b>ACTIVE SCRIPTS MANAGER</b>\n\n"
                 f"✨ Yahan aapke tamam authorized scripts aur unka live status show hota hai.\n\n"
                 f"🟢 System Status: <b>ONLINE & SECURE</b>\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -125,15 +154,15 @@ def receive_update():
                 f"🛡️ <b>SECURITY & ENCRYPTION SHIELD</b>\n\n"
                 f"🔒 Advanced token protection aur device locking active hai.\n"
                 f"⚡ Koi bhi unauthorized script run nahi ho sakti.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, msg)
 
         elif text == "⚡ Device Verifier":
             msg = (
                 f"⚡ <b>DEVICE ID VERIFIER</b>\n\n"
-                f"📋 Apni script dashboard سے Device ID copy karein aur yahan direct chat mein send karein taake verification mukammal ho sake.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
+                f"📋 Apni script dashboard se Device ID copy karein aur yahan direct chat mein send karein taake verification mukammal ho sake.\n\n"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -141,7 +170,7 @@ def receive_update():
             msg = (
                 f"🔥 <b>ACCESS CONTROL CENTER</b>\n\n"
                 f"⚙️ Har device ki access management yahan se handle hoti hai. Pending requests foran admin ke paas approval ke liye jati hain.\n\n"
-                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 HACKER ☠️😈"
+                f"👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈"
             )
             send_message(chat_id, msg)
 
@@ -209,7 +238,7 @@ def receive_update():
                     AUTHORIZED_DEVICES[device_id] = {"status": "active", "username": "Unknown", "chat_id": chat_id}
                 
                 answer_callback(callback_id, "Script Access Granted Successfully! ✅")
-                edit_message_text(chat_id, callback["message"]["message_id"], f"✅ <b>SCRIPT ACCESS APPROVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>ACTIVE ✓</b>\n👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
+                edit_message_text(chat_id, callback["message"]["message_id"], f"✅ <b>SCRIPT ACCESS APPROVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>ACTIVE ✓</b>\n👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈")
                 
                 user_target_chat = AUTHORIZED_DEVICES[device_id].get("chat_id")
                 if user_target_chat:
@@ -230,7 +259,7 @@ def receive_update():
                     AUTHORIZED_DEVICES[device_id]["status"] = "banned"
                 
                 answer_callback(callback_id, "Script Access Revoked! ❌")
-                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ <b>SCRIPT ACCESS REMOVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>LOCKED ❌</b>\n👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 ☠️😈")
+                edit_message_text(chat_id, callback["message"]["message_id"], f"❌ <b>SCRIPT ACCESS REMOVED</b>\n\n💻 Device ID: <code>{device_id}</code>\nStatus: <b>LOCKED ❌</b>\n👑 <b>BRAND:</b> 😈☠️ 𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 ☠️😈")
 
                 user_target_chat = AUTHORIZED_DEVICES[device_id].get("chat_id")
                 if user_target_chat:
