@@ -10,12 +10,22 @@ TELEGRAM_INIT_URL = f"https://api.telegram.org/bot{TOKEN}"
 
 AUTHORIZED_DEVICES = {}
 
-@app.route('/')
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+@app.route('/', methods=['GET'])
 def home():
     return "😈☠️ 𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦 ☠️😈 - SYSTEM ONLINE 🚀"
 
-@app.route('/check-device', methods=['GET', 'POST'])
+@app.route('/check-device', methods=['GET', 'POST', 'OPTIONS'])
 def check_device():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
+        
     device_id = request.args.get('device_id') or (request.json.get('device_id') if request.is_json else None)
     if not device_id and request.method == 'POST':
         device_id = request.form.get('device_id')
@@ -28,9 +38,12 @@ def check_device():
     else:
         return jsonify({"status": "locked", "message": "Device Not Authorized ❌"})
 
-@app.route(f'/{TOKEN}', methods=['POST'])
+@app.route(f'/{TOKEN}', methods=['POST', 'GET'])
 def receive_update():
-    data = request.get_json()
+    if request.method == 'GET':
+        return "Bot is running active webhook endpoint!", 200
+        
+    data = request.get_json(silent=True)
     if not data:
         return "OK", 200
 
@@ -163,7 +176,7 @@ def receive_update():
                 if user_target_chat:
                     approved_msg = (
                         f"🎉 <b>CONGRATULATIONS!</b> 👑\n\n"
-                        f"😈☠️ <b>𝗠.𝗞 𝗛𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
+                        f"😈☠️ <b>𝗠.𝗞 H𝗔𝗖𝗞𝗘𝗥 𝗣𝗥𝗢 𝗦𝗖𝗥𝗜𝗣𝗧𝗦</b> ☠️😈\n\n"
                         f"✅ <b>YOUR SCRIPT IS NOW ACTIVE</b>\n\n"
                         f"💻 <b>Device ID:</b> <code>{device_id}</code>\n\n"
                         f"🟢 <b>Status:</b> ACTIVE ✓\n\n"
@@ -270,6 +283,3 @@ def answer_callback(callback_id, text):
         "show_alert": True
     }
     requests.post(url, json=payload)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
