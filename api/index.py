@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-TOKEN = "8952622770:AAEtPR3iUsVpQ9Wi3i6kgcsDn64EOIJQ3zU"
+TOKEN = "8952622770:AAGjVz5WoH0HG_fArmdHktI1yUZy6yiw6mQ"
 ADMIN_CHAT_ID = "8791893329"
 TELEGRAM_INIT_URL = f"https://api.telegram.org/bot{TOKEN}"
 
